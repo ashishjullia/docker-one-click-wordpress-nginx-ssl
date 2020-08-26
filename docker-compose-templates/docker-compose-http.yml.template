@@ -17,13 +17,12 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
-      - "443:443"
     volumes:
       - type: volume
         source: web-root-new4
         target: /var/www/html
       - type: bind
-        source: ./nginx-conf/default-ssl.conf
+        source: ./nginx/default.conf
         target: /etc/nginx/conf.d/default.conf
       - type: volume
         source: certbot-etc
@@ -31,9 +30,6 @@ services:
       - type: volume
         source: certbot-var
         target: /var/lib/letsencrypt
-      - type: bind
-        source: ./dhparam/dhparam-2048.pem
-        target: /etc/ssl/certs/dhparam-2048.pem
     depends_on:
       - nodejs
     networks:
@@ -60,7 +56,6 @@ volumes:
   certbot-etc:
   certbot-var:
   web-root-new4:
-  dhparam:
 
 networks:
   app-network:
